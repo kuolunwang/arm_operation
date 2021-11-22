@@ -290,10 +290,10 @@ void RobotArm::JointStateCallback(const sensor_msgs::JointState &msg){
     }
   }
   else{ // Different convension in gazebo
-    joint[0] = msg.position[2]; // shoulder_pan_joint
-    joint[1] = msg.position[1]; // shoulder_lift_joint
+    joint[0] = msg.position[3]; // shoulder_pan_joint
+    joint[1] = msg.position[2]; // shoulder_lift_joint
     joint[2] = msg.position[0]; // elbow_joint
-    for(int i=3; i<6; ++i) joint[i] = msg.position[i];
+    for(int i=3; i<6; ++i) joint[i] = msg.position[i+1];
   }
 }
 
