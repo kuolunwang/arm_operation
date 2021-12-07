@@ -11,8 +11,12 @@ inline double makeMinorRotate(const double joint_now, const double joint_togo){
 
 // Public functions
 RobotArm::RobotArm(ros::NodeHandle nh, ros::NodeHandle pnh): nh_(nh), pnh_(pnh), num_sols(1), is_robot_enable(true), is_send_goal(false){
+  
+  if(!pnh_.getParam("name", name)) name = "";
+  if(!name.empty()) name+="/";
+  
   // Subscriber
-  sub_joint_state = pnh_.subscribe("joint_states", 1, &RobotArm::JointStateCallback, this);
+  sub_joint_state = pnh_.subscribe(name + "/joint_states", 1, &RobotArm::JointStateCallback, this);
   sub_robot_state = pnh_.subscribe("/ur_driver/robot_mode_state", 1, &RobotArm::RobotModeStateCallback, this);
   sub_wrench      = pnh_.subscribe("/wrench", 1, &RobotArm::RobotWrenchCallback, this);
   // Service server
@@ -55,12 +59,12 @@ RobotArm::RobotArm(ros::NodeHandle nh, ros::NodeHandle pnh): nh_(nh), pnh_(pnh),
   ROS_INFO("[%s] Wrist 3 bound: [%f, %f]", ros::this_node::getName().c_str(), wrist3_lower_bound, wrist3_upper_bound);
   ROS_INFO("[%s] Force thres: %f", ros::this_node::getName().c_str(), force_thres);
   ROS_INFO("*********************************************************************************");
-  if(!prefix.empty()) prefix+="_"; // [prefix]+"_"+[joint name]
+  if(!prefix.empty()) prefix+="/"; // [prefix]+"_"+[joint name]
   // Tell the action client that we want to spin a thread by default
   if(!sim)
     traj_client = new TrajClient("/follow_joint_trajectory", true);
   else
-    traj_client = new TrajClient("/arm_controller/follow_joint_trajectory", true);
+    traj_client = new TrajClient(name + "/arm_controller/follow_joint_trajectory", true);
   // Wait for action server to come up
   while (!traj_client->waitForServer(ros::Duration(5.0)))
     ROS_INFO("Waiting for the joint_trajectory_action server");
@@ -290,10 +294,10 @@ void RobotArm::JointStateCallback(const sensor_msgs::JointState &msg){
     }
   }
   else{ // Different convension in gazebo
-    joint[0] = msg.position[3]; // shoulder_pan_joint
-    joint[1] = msg.position[2]; // shoulder_lift_joint
-    joint[2] = msg.position[0]; // elbow_joint
-    for(int i=3; i<6; ++i) joint[i] = msg.position[i+1];
+    joint[0] = msg.position[7]; // shoulder_pan_joint
+    joint[1] = msg.position[6]; // shoulder_lift_joint
+    joint[2] = msg.position[5]; // elbow_joint
+    for(int i=3; i<6; ++i) joint[i] = msg.position[i+5];
   }
 }
 

@@ -74,6 +74,7 @@ class RobotArm {
   bool wrist1_collision;
   bool wrist2_collision;
   bool wrist3_collision;
+  std::string name;
   std::string prefix;
   URScriptSocket ur_control;
   // ROS
