@@ -16,7 +16,7 @@ RobotArm::RobotArm(ros::NodeHandle nh, ros::NodeHandle pnh): nh_(nh), pnh_(pnh),
   if(!name.empty()) name+="/";
   
   // Subscriber
-  sub_joint_state = pnh_.subscribe(name + "/joint_states", 1, &RobotArm::JointStateCallback, this);
+  sub_joint_state = pnh_.subscribe("/" + name + "joint_states", 1, &RobotArm::JointStateCallback, this);
   sub_robot_state = pnh_.subscribe("/ur_driver/robot_mode_state", 1, &RobotArm::RobotModeStateCallback, this);
   sub_wrench      = pnh_.subscribe("/wrench", 1, &RobotArm::RobotWrenchCallback, this);
   // Service server
