@@ -2,6 +2,7 @@
 <launch>
   <arg name="robot_ip"/>
   <arg name="tool_length" default="0.15"/>
+  <arg name="namespace" default="" />
   <!-- Turn on real robot -->
   <include file="$(find ur_modern_driver)/launch/ur5_bringup.launch">
     <arg name="robot_ip" value="$(arg robot_ip)"/>
@@ -16,6 +17,7 @@
     <param name="wrist3_upper_bound" value="1.9"/>
     <param name="wrist3_lower_bound" value="-2.2"/>
     <param name="force_thres" value="80.0"/>
-    <remap from="~joint_states" to="/joint_states"/>
+    <param name="name" value="$(arg namespace)" />
+    <!-- <remap from="~joint_states" to="/joint_states"/> -->
   </node>
 </launch>
