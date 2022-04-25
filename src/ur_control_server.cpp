@@ -64,7 +64,7 @@ RobotArm::RobotArm(ros::NodeHandle nh, ros::NodeHandle pnh): nh_(nh), pnh_(pnh),
   if(!sim)
     traj_client = new TrajClient("/follow_joint_trajectory", true);
   else
-    traj_client = new TrajClient(name + "/arm_controller/follow_joint_trajectory", true);
+    traj_client = new TrajClient("arm_controller/follow_joint_trajectory", true);
   // Wait for action server to come up
   while (!traj_client->waitForServer(ros::Duration(5.0)))
     ROS_INFO("Waiting for the joint_trajectory_action server");

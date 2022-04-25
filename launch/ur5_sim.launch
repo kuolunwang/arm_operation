@@ -13,6 +13,6 @@
     <param name="wrist3_lower_bound" value="-3.14"/>
     <param name="prefix" value="ur5" />
     <param name="name" value="$(arg namespace)" />
-    <remap from="~joint_states" to="/joint_states"/>
+    <!-- <remap from="~joint_states" to="/joint_states"/> -->
   </node>
 </launch>
