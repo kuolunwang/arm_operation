@@ -17,7 +17,9 @@
     <param name="wrist3_upper_bound" value="1.9"/>
     <param name="wrist3_lower_bound" value="-2.2"/>
     <param name="force_thres" value="80.0"/>
+    <param name="prefix" value="" />
     <param name="name" value="$(arg namespace)" />
+    <param name="only" value="false" />
     <!-- <remap from="~joint_states" to="/joint_states"/> -->
   </node>
 </launch>
