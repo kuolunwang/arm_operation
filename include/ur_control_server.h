@@ -71,6 +71,7 @@ class RobotArm {
   bool is_send_goal;
   bool is_robot_enable;
   bool sim;
+  bool only;
   bool wrist1_collision;
   bool wrist2_collision;
   bool wrist3_collision;

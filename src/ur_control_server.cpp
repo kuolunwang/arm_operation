@@ -30,6 +30,7 @@ RobotArm::RobotArm(ros::NodeHandle nh, ros::NodeHandle pnh): nh_(nh), pnh_(pnh),
   if(!pnh_.getParam("tool_length", tool_length)) tool_length = 0.0;
   if(!pnh_.getParam("prefix", prefix)) prefix="";
   if(!pnh_.getParam("sim", sim)) sim = false;
+  if(!pnh_.getParam("only", only)) only = false;
   // Wrist1 default bound [-240, -30]
   if(!pnh_.getParam("wrist1_upper_bound", wrist1_upper_bound)) wrist1_upper_bound = deg2rad(-30);
   if(!pnh_.getParam("wrist1_lower_bound", wrist1_lower_bound)) wrist1_lower_bound = deg2rad(-240);
@@ -292,6 +293,12 @@ void RobotArm::JointStateCallback(const sensor_msgs::JointState &msg){
     for(int i=0; i<6; ++i){
       joint[i] = msg.position[i];
     }
+  }
+  else if(only){
+    joint[0] = msg.position[3];
+    joint[1] = msg.position[2];
+    joint[2] = msg.position[1];
+    for(int i=3; i<6; ++i) joint[i] = msg.position[i+1];
   }
   else{ // Different convension in gazebo
     joint[0] = msg.position[7]; // shoulder_pan_joint

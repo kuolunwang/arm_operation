@@ -1,6 +1,7 @@
 <launch>
   <arg name="tool_length" default="0.18"/>
   <arg name="namespace" default="" />
+  <arg name="only_ur5" default="false" />
   <param name="use_sim_time" value="true"/>
   <node pkg="arm_operation" type="ur5_control_server" name="ur5_control_server" output="screen">
     <param name="sim" value="true"/>
@@ -13,6 +14,7 @@
     <param name="wrist3_lower_bound" value="-3.14"/>
     <param name="prefix" value="ur5" />
     <param name="name" value="$(arg namespace)" />
+    <param name="only" value="$(arg only_ur5)" />
     <!-- <remap from="~joint_states" to="/joint_states"/> -->
   </node>
 </launch>
